@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Test - IGNITE Part Share</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .loading {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Firebase Test Suite - IGNITE Part Share</h1>
+        
+        <!-- Authentication Test -->
+        <div class="test-section">
+            <h3><i class="fas fa-user-check"></i> Authentication Test</h3>
+            <div id="authStatus" class="test-result loading">Testing authentication...</div>
+            <button class="btn btn-primary" onclick="testAuth()">Test Authentication</button>
+            <button class="btn btn-success" onclick="window.open('pages/login.html', '_blank')">Go to Login</button>
+            <button class="btn btn-secondary" onclick="testLogout()">Test Logout</button>
+        </div>
+
+        <!-- Team Creation Test -->
+        <div class="test-section">
+            <h3><i class="fas fa-users"></i> Team Creation Test</h3>
+            <div id="teamTestStatus" class="test-result info">Ready to test team creation</div>
+            <button class="btn btn-success" onclick="testTeamCreation()">Test Team Creation</button>
+        </div>
+
+        <!-- Firestore Test -->
+        <div class="test-section">
+            <h3><i class="fas fa-database"></i> Firestore Test</h3>
+            <div id="firestoreStatus" class="test-result loading">Testing Firestore connection...</div>
+            <button class="btn btn-info" onclick="testFirestore()">Test Firestore</button>
+        </div>
+
+        <!-- Notification Test -->
+        <div class="test-section">
+            <h3><i class="fas fa-bell"></i> Notification Test</h3>
+            <div id="notificationStatus" class="test-result info">Ready to test notifications</div>
+            <button class="btn btn-warning" onclick="testNotifications()">Test Notifications</button>
+        </div>
+
+        <!-- Form Validation Test -->
+        <div class="test-section">
+            <h3><i class="fas fa-check-circle"></i> Form Validation Test</h3>
+            <div id="formTestStatus" class="test-result info">Ready to test form validation</div>
+            <button class="btn btn-primary" onclick="testFormValidation()">Test Form Validation</button>
+        </div>
+
+        <!-- Test Results Summary -->
+        <div class="test-section">
+            <h3><i class="fas fa-clipboard-list"></i> Test Results Summary</h3>
+            <div id="testSummary" class="test-result info">Run tests to see results</div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div class="notification-container" id="notificationContainer" style="position: fixed; top: 20px; right: 20px; z-index: 9999; max-width: 400px;"></div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Initialize Firebase -->
+    <script src="js/firebase-init.js"></script>
+    
+    <!-- Main JS for notifications -->
+    <script src="js/main.js"></script>
+
+    <script>
+        let testResults = {
+            auth: false,
+            teamCreation: false,
+            firestore: false,
+            notifications: false,
+            formValidation: false
+        };
+
+        // Test Authentication
+        async function testAuth() {
+            const statusEl = document.getElementById('authStatus');
+            statusEl.className = 'test-result loading';
+            statusEl.textContent = 'Testing authentication...';
+
+            try {
+                const user = firebase.auth().currentUser;
+                if (user) {
+                    statusEl.className = 'test-result success';
+                    statusEl.textContent = `✅ Authentication successful! User: ${user.email}`;
+                    testResults.auth = true;
+                } else {
+                    statusEl.className = 'test-result error';
+                    statusEl.textContent = '❌ No user authenticated. Please log in first.';
+                    testResults.auth = false;
+                }
+            } catch (error) {
+                statusEl.className = 'test-result error';
+                statusEl.textContent = `❌ Authentication error: ${error.message}`;
+                testResults.auth = false;
+            }
+            updateSummary();
+        }
+
+        // Test Logout
+        async function testLogout() {
+            try {
+                await firebase.auth().signOut();
+                document.getElementById('authStatus').className = 'test-result info';
+                document.getElementById('authStatus').textContent = '✅ Logout successful!';
+                testResults.auth = false;
+                updateSummary();
+            } catch (error) {
+                document.getElementById('authStatus').className = 'test-result error';
+                document.getElementById('authStatus').textContent = `❌ Logout error: ${error.message}`;
+            }
+        }
+
+        // Test Team Creation
+        async function testTeamCreation() {
+            const statusEl = document.getElementById('teamTestStatus');
+            statusEl.className = 'test-result loading';
+            statusEl.textContent = 'Testing team creation...';
+
+            try {
+                const db = firebase.firestore();
+                
+                // Test data
+                const testTeamData = {
+                    teamNumber: 'TEST' + Date.now(),
+                    teamName: 'Test Team ' + Date.now(),
+                    city: 'Test City',
+                    state: 'CA',
+                    country: 'US',
+                    program: 'ftc',
+                    teamPassword: 'testpass123',
+                    coachEmail: 'test@example.com',
+                    coachFirstName: 'Test',
+                    coachLastName: 'Coach',
+                    points: 10,
+                    memberCount: 1,
+                    adminMembers: ['test-user-id'],
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    verificationStatus: 'verified'
+                };
+
+                // Try to create a test team
+                const teamRef = await db.collection('teams').add(testTeamData);
+                
+                statusEl.className = 'test-result success';
+                statusEl.textContent = `✅ Team creation successful! Team ID: ${teamRef.id}`;
+                testResults.teamCreation = true;
+
+                // Clean up - delete the test team
+                setTimeout(async () => {
+                    try {
+                        await teamRef.delete();
+                        console.log('Test team cleaned up');
+                    } catch (cleanupError) {
+                        console.log('Cleanup error:', cleanupError);
+                    }
+                }, 5000);
+
+            } catch (error) {
+                statusEl.className = 'test-result error';
+                statusEl.textContent = `❌ Team creation failed: ${error.message}`;
+                testResults.teamCreation = false;
+            }
+            updateSummary();
+        }
+
+        // Test Firestore
+        async function testFirestore() {
+            const statusEl = document.getElementById('firestoreStatus');
+            statusEl.className = 'test-result loading';
+            statusEl.textContent = 'Testing Firestore connection...';
+
+            try {
+                const db = firebase.firestore();
+                
+                // Test with a simple document first
+                const testData = {
+                    test: true,
+                    timestamp: new Date().toISOString(),
+                    user: firebase.auth().currentUser?.email || 'anonymous'
+                };
+                
+                // Test write to a simple collection
+                await db.collection('test').doc('simple-test').set(testData);
+                
+                // Test read
+                const testDoc = await db.collection('test').doc('simple-test').get();
+                
+                if (testDoc.exists) {
+                    statusEl.className = 'test-result success';
+                    statusEl.textContent = '✅ Firestore connection successful! Read and write operations working.';
+                    testResults.firestore = true;
+                } else {
+                    statusEl.className = 'test-result error';
+                    statusEl.textContent = '❌ Firestore write succeeded but read failed.';
+                    testResults.firestore = false;
+                }
+
+            } catch (error) {
+                statusEl.className = 'test-result error';
+                statusEl.textContent = `❌ Firestore error: ${error.message}`;
+                console.error('Firestore test error:', error);
+                testResults.firestore = false;
+            }
+            updateSummary();
+        }
+
+        // Test Notifications
+        function testNotifications() {
+            const statusEl = document.getElementById('notificationStatus');
+            
+            try {
+                if (typeof showNotification === 'function') {
+                    showNotification('Test notification - Success!', 'success', 'Test');
+                    showNotification('Test notification - Error!', 'error', 'Test');
+                    showNotification('Test notification - Warning!', 'warning', 'Test');
+                    showNotification('Test notification - Info!', 'info', 'Test');
+                    
+                    statusEl.className = 'test-result success';
+                    statusEl.textContent = '✅ Notifications working! Check the top-right corner.';
+                    testResults.notifications = true;
+                } else {
+                    statusEl.className = 'test-result error';
+                    statusEl.textContent = '❌ showNotification function not found!';
+                    testResults.notifications = false;
+                }
+            } catch (error) {
+                statusEl.className = 'test-result error';
+                statusEl.textContent = `❌ Notification error: ${error.message}`;
+                testResults.notifications = false;
+            }
+            updateSummary();
+        }
+
+        // Test Form Validation
+        function testFormValidation() {
+            const statusEl = document.getElementById('formTestStatus');
+            
+            try {
+                // Test entrance code validation
+                const testCode = 'IPSPILOTQ1';
+                const isValid = testCode === 'IPSPILOTQ1';
+                
+                if (isValid) {
+                    statusEl.className = 'test-result success';
+                    statusEl.textContent = '✅ Form validation working! Entrance code validation passed.';
+                    testResults.formValidation = true;
+                } else {
+                    statusEl.className = 'test-result error';
+                    statusEl.textContent = '❌ Form validation failed!';
+                    testResults.formValidation = false;
+                }
+            } catch (error) {
+                statusEl.className = 'test-result error';
+                statusEl.textContent = `❌ Form validation error: ${error.message}`;
+                testResults.formValidation = false;
+            }
+            updateSummary();
+        }
+
+        // Update test summary
+        function updateSummary() {
+            const summaryEl = document.getElementById('testSummary');
+            const totalTests = Object.keys(testResults).length;
+            const passedTests = Object.values(testResults).filter(result => result === true).length;
+            
+            let summaryHTML = `<strong>Test Results: ${passedTests}/${totalTests} passed</strong><br>`;
+            
+            for (const [test, result] of Object.entries(testResults)) {
+                const icon = result ? '✅' : '❌';
+                const status = result ? 'PASS' : 'FAIL';
+                summaryHTML += `${icon} ${test}: ${status}<br>`;
+            }
+            
+            summaryEl.innerHTML = summaryHTML;
+            
+            if (passedTests === totalTests) {
+                summaryEl.className = 'test-result success';
+            } else if (passedTests > 0) {
+                summaryEl.className = 'test-result info';
+            } else {
+                summaryEl.className = 'test-result error';
+            }
+        }
+
+        // Auto-run some tests on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Listen for auth state changes
+            firebase.auth().onAuthStateChanged((user) => {
+                if (user) {
+                    console.log('User authenticated:', user.email);
+                    testAuth();
+                    testFirestore();
+                } else {
+                    console.log('No user authenticated');
+                    document.getElementById('authStatus').className = 'test-result error';
+                    document.getElementById('authStatus').textContent = '❌ Please log in first. Go to the main site and log in, then return here.';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

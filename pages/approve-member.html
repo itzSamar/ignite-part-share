@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approve Team Member - IGNITE Part Share</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">IGNITE Part Share</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <main class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow-lg">
+                        <div class="card-body p-5 text-center">
+                            <div id="loadingState">
+                                <div class="spinner-border text-primary mb-3" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <h3>Loading Member Request...</h3>
+                                <p class="text-muted">Please wait while we fetch the member details.</p>
+                            </div>
+
+                            <div id="approvalForm" style="display: none;">
+                                <div class="success-icon mb-4">
+                                    <i class="fas fa-user-plus text-primary" style="font-size: 4rem;"></i>
+                                </div>
+                                
+                                <h2 class="mb-4">Approve New Team Member</h2>
+                                
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <h5><i class="fas fa-user me-2"></i>Member Details</h5>
+                                        <div id="memberDetails"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <h5><i class="fas fa-users me-2"></i>Team Details</h5>
+                                        <div id="teamDetails"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>Action Required:</strong> Please review the information above and approve or deny this member request.
+                                </div>
+                                
+                                <div class="d-grid gap-3 d-md-block">
+                                    <button id="approveBtn" class="btn btn-success btn-lg px-5">
+                                        <i class="fas fa-check me-2"></i>Approve Member
+                                    </button>
+                                    <button id="denyBtn" class="btn btn-danger btn-lg px-5">
+                                        <i class="fas fa-times me-2"></i>Deny Member
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="successState" style="display: none;">
+                                <div class="success-icon mb-4">
+                                    <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+                                </div>
+                                <h3 class="text-success mb-3">Member Approved Successfully!</h3>
+                                <p class="text-muted mb-4">The new member has been added to your team and can now log in.</p>
+                                <a href="../index.html" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-home me-2"></i>Go to Homepage
+                                </a>
+                            </div>
+
+                            <div id="errorState" style="display: none;">
+                                <div class="error-icon mb-4">
+                                    <i class="fas fa-exclamation-circle text-danger" style="font-size: 4rem;"></i>
+                                </div>
+                                <h3 class="text-danger mb-3">Error Processing Request</h3>
+                                <p class="text-muted mb-4" id="errorMessage">An error occurred while processing your request.</p>
+                                <a href="../index.html" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-home me-2"></i>Go to Homepage
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="bg-light mt-5 py-3">
+        <div class="container text-center">
+            <p>&copy; 2025 IGNITE Part Share. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-functions-compat.js"></script>
+    
+    <!-- Initialize Firebase -->
+    <script src="../js/firebase-init.js"></script>
+
+    <!-- Bootstrap and custom scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = window.location.pathname.split('/').pop();
+        const teamId = urlParams.get('team');
+
+        let memberData = null;
+        let teamData = null;
+
+        // Load member and team data
+        async function loadData() {
+            try {
+                const db = firebase.firestore();
+                
+                // Get member data
+                const userDoc = await db.collection('users').doc(userId).get();
+                if (!userDoc.exists) {
+                    throw new Error('Member not found');
+                }
+                memberData = userDoc.data();
+                
+                // Get team data
+                const teamDoc = await db.collection('teams').doc(teamId).get();
+                if (!teamDoc.exists) {
+                    throw new Error('Team not found');
+                }
+                teamData = teamDoc.data();
+                
+                // Display the data
+                displayData();
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                showError('Failed to load member request: ' + error.message);
+            }
+        }
+
+        // Display member and team data
+        function displayData() {
+            document.getElementById('memberDetails').innerHTML = `
+                <p><strong>Name:</strong> ${memberData.firstName} ${memberData.lastName}</p>
+                <p><strong>Email:</strong> ${memberData.email}</p>
+                <p><strong>Role:</strong> ${memberData.role}</p>
+                <p><strong>Requested:</strong> ${memberData.createdAt ? new Date(memberData.createdAt.toDate()).toLocaleString() : 'Unknown'}</p>
+            `;
+            
+            document.getElementById('teamDetails').innerHTML = `
+                <p><strong>Team:</strong> ${teamData.teamName}</p>
+                <p><strong>Team Number:</strong> ${teamData.teamNumber}</p>
+                <p><strong>Program:</strong> ${teamData.program?.toUpperCase()}</p>
+            `;
+            
+            // Show the approval form
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('approvalForm').style.display = 'block';
+        }
+
+        // Show error state
+        function showError(message) {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
+            document.getElementById('errorMessage').textContent = message;
+        }
+
+        // Show success state
+        function showSuccess() {
+            document.getElementById('approvalForm').style.display = 'none';
+            document.getElementById('successState').style.display = 'block';
+        }
+
+        // Handle member approval
+        document.getElementById('approveBtn').addEventListener('click', async () => {
+            try {
+                const functions = firebase.functions();
+                const approveMember = functions.httpsCallable('approveMember');
+                
+                const result = await approveMember({ userId, teamId });
+                console.log('Member approved:', result);
+                
+                showSuccess();
+                
+            } catch (error) {
+                console.error('Error approving member:', error);
+                showError('Failed to approve member: ' + error.message);
+            }
+        });
+
+        // Handle member denial
+        document.getElementById('denyBtn').addEventListener('click', async () => {
+            try {
+                const functions = firebase.functions();
+                const denyMember = functions.httpsCallable('denyMember');
+                
+                const result = await denyMember({ userId, teamId });
+                console.log('Member denied:', result);
+                
+                // Redirect to denial page or show success
+                window.location.href = `deny-member.html?userId=${userId}&teamId=${teamId}`;
+                
+            } catch (error) {
+                console.error('Error denying member:', error);
+                showError('Failed to deny member: ' + error.message);
+            }
+        });
+
+        // Load data when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            if (userId && teamId) {
+                loadData();
+            } else {
+                showError('Invalid request URL. Missing user ID or team ID.');
+            }
+        });
+    </script>
+</body>
+</html> 

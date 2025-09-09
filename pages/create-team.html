@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Team - IGNITE Part Share</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">IGNITE Part Share</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Home</a>
+                    </li>
+                </ul>
+                <div class="navbar-nav">
+                    <a class="nav-link" href="login.html">Login</a>
+                    <a class="nav-link" href="join-team.html">Join Team</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Notification Container -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <div class="main-content">
+        <main class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="card shadow-lg">
+                        <div class="card-body p-5" id="registrationForm">
+                            <h2 class="text-center mb-4">Create a New Team</h2>
+                            <p class="text-center text-muted mb-5">Set up your FIRST team to start sharing parts with the community</p>
+
+                            <!-- Progress Bar -->
+                            <div class="progress-container mb-5">
+                                <div class="progress-steps">
+                                    <div class="step-indicator active" data-step="1">
+                                        <div class="step-number">1</div>
+                                        <div class="step-label">Team Information</div>
+                                        <div class="step-description">Basic team details</div>
+                                    </div>
+                                    <div class="step-indicator" data-step="2">
+                                        <div class="step-number">2</div>
+                                        <div class="step-label">Coach Details</div>
+                                        <div class="step-description">Your information</div>
+                                    </div>
+                                    <div class="step-indicator" data-step="3">
+                                        <div class="step-number">3</div>
+                                        <div class="step-label">Create & Verify</div>
+                                        <div class="step-description">Complete setup</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 1: Team Information -->
+                            <form id="teamCreationForm">
+                            <div id="step1" class="registration-step">
+                                <div class="step-header mb-4">
+                                    <h3><i class="fas fa-users me-2"></i>Step 1: Team Information</h3>
+                                    <p class="text-muted">Provide basic information about your FIRST team</p>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="teamNumber" class="form-label">Team Number *</label>
+                                        <input type="text" class="form-control" id="teamNumber" placeholder="e.g., 12345" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="teamName" class="form-label">Team Name *</label>
+                                        <input type="text" class="form-control" id="teamName" placeholder="Enter your team name" required>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="city" class="form-label">City *</label>
+                                        <input type="text" class="form-control" id="city" placeholder="City" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="state" class="form-label">State/Province *</label>
+                                        <select class="form-select" id="state" required>
+                                            <option value="">Select state/province</option>
+                                            <option value="AL">Alabama</option>
+                                            <option value="AK">Alaska</option>
+                                            <option value="AZ">Arizona</option>
+                                            <option value="AR">Arkansas</option>
+                                            <option value="CA">California</option>
+                                            <option value="CO">Colorado</option>
+                                            <option value="CT">Connecticut</option>
+                                            <option value="DE">Delaware</option>
+                                            <option value="FL">Florida</option>
+                                            <option value="GA">Georgia</option>
+                                            <option value="HI">Hawaii</option>
+                                            <option value="ID">Idaho</option>
+                                            <option value="IL">Illinois</option>
+                                            <option value="IN">Indiana</option>
+                                            <option value="IA">Iowa</option>
+                                            <option value="KS">Kansas</option>
+                                            <option value="KY">Kentucky</option>
+                                            <option value="LA">Louisiana</option>
+                                            <option value="ME">Maine</option>
+                                            <option value="MD">Maryland</option>
+                                            <option value="MA">Massachusetts</option>
+                                            <option value="MI">Michigan</option>
+                                            <option value="MN">Minnesota</option>
+                                            <option value="MS">Mississippi</option>
+                                            <option value="MO">Missouri</option>
+                                            <option value="MT">Montana</option>
+                                            <option value="NE">Nebraska</option>
+                                            <option value="NV">Nevada</option>
+                                            <option value="NH">New Hampshire</option>
+                                            <option value="NJ">New Jersey</option>
+                                            <option value="NM">New Mexico</option>
+                                            <option value="NY">New York</option>
+                                            <option value="NC">North Carolina</option>
+                                            <option value="ND">North Dakota</option>
+                                            <option value="OH">Ohio</option>
+                                            <option value="OK">Oklahoma</option>
+                                            <option value="OR">Oregon</option>
+                                            <option value="PA">Pennsylvania</option>
+                                            <option value="RI">Rhode Island</option>
+                                            <option value="SC">South Carolina</option>
+                                            <option value="SD">South Dakota</option>
+                                            <option value="TN">Tennessee</option>
+                                            <option value="TX">Texas</option>
+                                            <option value="UT">Utah</option>
+                                            <option value="VT">Vermont</option>
+                                            <option value="VA">Virginia</option>
+                                            <option value="WA">Washington</option>
+                                            <option value="WV">West Virginia</option>
+                                            <option value="WI">Wisconsin</option>
+                                            <option value="WY">Wyoming</option>
+                                            <option value="AB">Alberta</option>
+                                            <option value="BC">British Columbia</option>
+                                            <option value="MB">Manitoba</option>
+                                            <option value="NB">New Brunswick</option>
+                                            <option value="NL">Newfoundland and Labrador</option>
+                                            <option value="NS">Nova Scotia</option>
+                                            <option value="NT">Northwest Territories</option>
+                                            <option value="NU">Nunavut</option>
+                                            <option value="ON">Ontario</option>
+                                            <option value="PE">Prince Edward Island</option>
+                                            <option value="QC">Quebec</option>
+                                            <option value="SK">Saskatchewan</option>
+                                            <option value="YT">Yukon</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="country" class="form-label">Country *</label>
+                                        <select class="form-select" id="country" required>
+                                            <option value="">Select country</option>
+                                            <option value="US">United States</option>
+                                            <option value="CA">Canada</option>
+                                            <option value="MX">Mexico</option>
+                                            <option value="GB">United Kingdom</option>
+                                            <option value="DE">Germany</option>
+                                            <option value="FR">France</option>
+                                            <option value="AU">Australia</option>
+                                            <option value="JP">Japan</option>
+                                            <option value="CN">China</option>
+                                            <option value="IN">India</option>
+                                            <option value="BR">Brazil</option>
+                                            <option value="RU">Russia</option>
+                                            <option value="KR">South Korea</option>
+                                            <option value="IT">Italy</option>
+                                            <option value="ES">Spain</option>
+                                            <option value="NL">Netherlands</option>
+                                            <option value="SE">Sweden</option>
+                                            <option value="CH">Switzerland</option>
+                                            <option value="NO">Norway</option>
+                                            <option value="DK">Denmark</option>
+                                            <option value="FI">Finland</option>
+                                            <option value="PL">Poland</option>
+                                            <option value="AT">Austria</option>
+                                            <option value="BE">Belgium</option>
+                                            <option value="IE">Ireland</option>
+                                            <option value="PT">Portugal</option>
+                                            <option value="GR">Greece</option>
+                                            <option value="CZ">Czech Republic</option>
+                                            <option value="HU">Hungary</option>
+                                            <option value="RO">Romania</option>
+                                            <option value="BG">Bulgaria</option>
+                                            <option value="HR">Croatia</option>
+                                            <option value="SI">Slovenia</option>
+                                            <option value="SK">Slovakia</option>
+                                            <option value="EE">Estonia</option>
+                                            <option value="LV">Latvia</option>
+                                            <option value="LT">Lithuania</option>
+                                            <option value="LU">Luxembourg</option>
+                                            <option value="MT">Malta</option>
+                                            <option value="CY">Cyprus</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="program" class="form-label">FIRST Program *</label>
+                                        <select class="form-select" id="program" required>
+                                            <option value="">Select a program</option>
+                                            <option value="fll">FIRST LEGO League</option>
+                                            <option value="ftc">FIRST Tech Challenge</option>
+                                            <option value="frc">FIRST Robotics Competition</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="teamPassword" class="form-label">Team Join Password *</label>
+                                        <input type="password" class="form-control" id="teamPassword" placeholder="Create a password for members to join" required>
+                                        <div class="form-text">Members will need this password to join your team</div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                        <label for="entranceCode" class="form-label">Entrance Code *</label>
+                                        <input type="text" class="form-control" id="entranceCode" placeholder="Enter the entrance code to create a team" required>
+                                        <div class="form-text">Contact Samar or Admin in the discord for the entrance code</div>
+                                    </div>
+                                </div>
+
+                                <div class="text-center mt-4">
+                                    <button type="button" class="btn btn-success btn-lg px-5" id="nextToStep2">
+                                        Continue to Coach Details <i class="fas fa-arrow-right ms-2"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Coach Details -->
+                            <div id="step2" class="registration-step" style="display: none;">
+                                <div class="step-header mb-4">
+                                    <h3><i class="fas fa-user-tie me-2"></i>Step 2: Coach Details</h3>
+                                    <p class="text-muted">Provide your information as the team coach/administrator</p>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="firstName" class="form-label">Your First Name *</label>
+                                        <input type="text" class="form-control" id="firstName" placeholder="Enter your first name" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="lastName" class="form-label">Your Last Name *</label>
+                                        <input type="text" class="form-control" id="lastName" placeholder="Enter your last name" required>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label">Your Email Address *</label>
+                                        <input type="email" class="form-control" id="email" placeholder="coach@school.edu" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="role" class="form-label">Your Role *</label>
+                                        <select class="form-select" id="role" required>
+                                            <option value="">Select your role</option>
+                                            <option value="Coach">Coach</option>
+                                            <option value="Administrator">Administrator</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="password" class="form-label">Password *</label>
+                                        <input type="password" class="form-control" id="password" placeholder="Create a password" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="confirmPassword" class="form-label">Confirm Password *</label>
+                                        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm your password" required>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="button" class="btn btn-secondary btn-lg" onclick="showStep(1)">
+                                        <i class="fas fa-arrow-left me-2"></i>Back
+                                    </button>
+                                    <button type="button" class="btn btn-success btn-lg px-5" id="nextToStep3">
+                                        Continue to Verification <i class="fas fa-arrow-right ms-2"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Step 3: Create & Verify -->
+                            <div id="step3" class="registration-step" style="display: none;">
+                                <div class="step-header mb-4">
+                                    <h3><i class="fas fa-check-circle me-2"></i>Step 3: Create & Verify</h3>
+                                    <p class="text-muted">Review your information and complete team creation</p>
+                                </div>
+
+                                <div class="verification-summary mb-4">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5><i class="fas fa-users me-2"></i>Team Information</h5>
+                                            <div id="teamSummary" class="summary-content"></div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5><i class="fas fa-user-tie me-2"></i>Coach Information</h5>
+                                            <div id="coachSummary" class="summary-content"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Coach Verification Section (Empty for now) -->
+                                <div class="alert alert-warning">
+                                    <h6><i class="fas fa-exclamation-triangle me-2"></i>Coach Verification</h6>
+                                    <p class="mb-0">This section will be used to verify your FIRST coach credentials. For now, you can proceed with team creation.</p>
+                                </div>
+
+                                <div class="form-check mb-4">
+                                    <input class="form-check-input" type="checkbox" id="agreeTOS" required>
+                                    <label class="form-check-label" for="agreeTOS">
+                                        I agree to the <a href="terms.html" target="_blank">Terms of Service</a> and confirm that all information provided is accurate.
+                                    </label>
+                                </div>
+
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="button" class="btn btn-secondary btn-lg" onclick="showStep(2)">
+                                        <i class="fas fa-arrow-left me-2"></i>Back
+                                    </button>
+                                    <button type="button" class="btn btn-primary btn-lg px-5" id="createTeamBtn">
+                                        <i class="fas fa-plus-circle me-2"></i>Create Team
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Success Message -->
+                            <div id="registrationSuccess" class="text-center" style="display: none;">
+                                <div class="success-icon mb-4">
+                                    <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+                                </div>
+                                <h3 class="text-success mb-3">Team Created Successfully!</h3>
+                                <p class="text-muted mb-4">Your team is now set up and ready to start sharing parts!</p>
+                                
+                                <!-- Email Verification Notice -->
+                                <div class="alert alert-info mb-4">
+                                    <h6><i class="fas fa-envelope me-2"></i>Check Your Email</h6>
+                                    <p class="mb-0">We've sent a verification email to your email address. Please check your inbox and click the verification link to fully activate your account.</p>
+                                    <div class="alert alert-warning mt-2 mb-0">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                        <strong>Important:</strong> Verification emails often go to spam/junk folders. If you don't see it in your inbox, please check your spam folder first!
+                                    </div>
+                                </div>
+
+                                <!-- Steps to Add Members -->
+                                <div class="card mt-4">
+                                    <div class="card-body">
+                                        <h5><i class="fas fa-info-circle me-2"></i>Instructions for Your Team Members</h5>
+                                        <p class="text-muted mb-3">Share these steps with anyone who wants to join your team:</p>
+                                        
+                                        <div class="alert alert-info">
+                                            <h6><strong>Step-by-Step Instructions:</strong></h6>
+                                            <ol class="text-start mb-0">
+                                                <li class="mb-2">Go to <strong>"Join Team"</strong> on the homepage</li>
+                                                <li class="mb-2">Enter your team number: <strong id="displayTeamNumber"></strong></li>
+                                                <li class="mb-2">Enter your team name: <strong id="displayTeamName"></strong></li>
+                                                <li class="mb-2">Enter your team password: <strong id="displayTeamPassword"></strong></li>
+                                                <li class="mb-2">Fill out their personal information</li>
+                                                <li>Click "Submit Request to Join Team"</li>
+                                            </ol>
+                                        </div>
+                                        
+                                        <div class="text-center mb-3">
+                                            <button class="btn btn-outline-primary" onclick="copyTeamInfo()">
+                                                <i class="fas fa-copy me-2"></i>Copy Team Info to Clipboard
+                                            </button>
+                                        </div>
+                                        
+                                        <div class="alert alert-warning">
+                                            <h6><strong>Important:</strong></h6>
+                                            <ul class="mb-0">
+                                                <li>Keep your team password secure</li>
+                                                <li>Only share it with people you want on your team</li>
+                                                <li>Members will join immediately with the correct password</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    <a href="../index.html" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-home me-2"></i>Go to Homepage
+                                    </a>
+                                </div>
+                            </div>
+                            </form>
+
+                            <div class="text-center mt-4">
+                                <p>Already have a team? <a href="join-team.html">Join an existing team</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="bg-light mt-5 py-3">
+        <div class="container text-center">
+            <p>&copy; 2025 IGNITE Part Share. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Initialize Firebase -->
+    <script src="../js/firebase-init.js"></script>
+
+    <!-- Bootstrap and custom scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/create-team.js"></script>
+</body>
+</html> 

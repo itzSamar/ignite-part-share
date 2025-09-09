@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IGNITE Part Share</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body class="index-page">
+    <!-- Spark Fire Animation Background -->
+    <div class="sparks-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;">
+        <div class="spark spark-1"></div>
+        <div class="spark spark-2"></div>
+        <div class="spark spark-3"></div>
+        <div class="spark spark-4"></div>
+        <div class="spark spark-5"></div>
+        <div class="spark spark-6"></div>
+    </div>
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">IGNITE Part Share</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/donate.html">Donate Parts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/request.html">Request Parts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/parts-list.html">Find Parts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/leaderboard.html">Leaderboard</a>
+                    </li>
+                </ul>
+                <div class="navbar-nav">
+                    <span class="nav-item notification-container">
+                        <a class="nav-link" href="pages/profile.html#notifications" id="notificationsLink">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge bg-danger notification-badge" id="notificationCount" style="display: none;">0</span>
+                        </a>
+                    </span>
+                    <span class="nav-link">
+                        <span class="points-badge">Team Points: <span id="userPoints">0</span></span>
+                    </span>
+                    <a class="nav-link" href="pages/profile.html">Profile</a>
+                    <a class="nav-link" href="#" id="logoutBtn">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Notification Container -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <div class="main-content">
+        <main class="container mt-5">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h1 class="display-4 mb-4">Welcome to IGNITE Part Share</h1>
+                    <p class="lead">Connecting FIRST teams through part sharing and community support</p>
+                    
+                    <!-- Team Credit - Moved to top -->
+                    <div class="team-credit-top mb-4">
+                        <h2 class="team-credit-title mb-2">Made by Team X 23512</h2>
+                        <p class="team-credit-subtitle mb-0">
+                            <a href="https://ignitepathways.org" target="_blank" class="ignite-link">IGNITE Pathways</a>
+                        </p>
+                    </div>
+                    
+                    <!-- Team Requirement Notice -->
+                    <div class="alert alert-info mt-4" role="alert">
+                        <h5><i class="fas fa-info-circle me-2"></i>Important: Team Membership Required</h5>
+                        <p class="mb-0">In order to use this website, you must be part of a FIRST team. If you're a <strong>coach or administrator</strong>, create a new team. If you're a <strong>member or mentor</strong>, join an existing team.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-5">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h2 class="card-title mb-4">Platform Benefits</h2>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <strong>Team-to-Team Support:</strong> Direct connection between teams for part sharing
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Sustainable Robotics:</strong> Reduce waste by reusing parts
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Cost Reduction:</strong> Access needed parts without purchasing new
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Points System:</strong> Coming soon - TBD
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Community Building:</strong> Foster connections between FIRST teams
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h2 class="card-title mb-4">How to Get Started</h2>
+                            <div class="accordion" id="howToUse">
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#createTeam">
+                                            Create a New Team (Coaches/Administrators)
+                                        </button>
+                                    </h3>
+                                    <div id="createTeam" class="accordion-collapse collapse show">
+                                        <div class="accordion-body">
+                                            <ol class="list-unstyled">
+                                                <li class="mb-2">1. Click <strong>"Create Team"</strong> below</li>
+                                                <li class="mb-2">2. Provide your coach/administrator information</li>
+                                                <li class="mb-2">3. Create your team profile</li>
+                                                <li>4. Share team details with members</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#joinTeam">
+                                            Join an Existing Team (Members/Mentors)
+                                        </button>
+                                    </h3>
+                                    <div id="joinTeam" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <ol class="list-unstyled">
+                                                <li class="mb-2">1. Click <strong>"Join Team"</strong> below</li>
+                                                <li class="mb-2">2. Enter your team number, name, and team password</li>
+                                                <li class="mb-2">3. Provide your personal information (name, email, role)</li>
+                                                <li>4. You'll be immediately added to the team with access to all features</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tracking">
+                                            Track & Manage
+                                        </button>
+                                    </h3>
+                                    <div id="tracking" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <ul class="list-unstyled">
+                                                <li class="mb-2">• View your donations and requests in <a href="pages/profile.html">Profile</a></li>
+                                                <li class="mb-2">• Track your team's points on the <a href="pages/leaderboard.html">Leaderboard</a></li>
+                                                <li>• Mark requests as fulfilled when parts are received</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="card-title">Ready to Get Started?</h3>
+                            <div class="d-flex justify-content-center gap-3 mt-4">
+                                <a href="pages/create-team.html" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-plus-circle me-2"></i>Create Team
+                                </a>
+                                <a href="pages/join-team.html" class="btn btn-success btn-lg">
+                                    <i class="fas fa-user-plus me-2"></i>Join Team
+                                </a>
+                                <a href="pages/parts-list.html" class="btn btn-browse-parts btn-lg">
+                                    <i class="fas fa-search me-2"></i>Browse Parts
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer mt-auto py-5 bg-light">
+        <div class="container text-center footer-attribution">
+            <!-- Team credit moved to top of page -->
+        </div>
+    </footer>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Initialize Firebase -->
+    <script src="js/firebase-init.js"></script>
+
+    <!-- Bootstrap and custom scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Add click handlers for the action buttons
+        document.addEventListener('DOMContentLoaded', () => {
+            const actionButtons = document.querySelectorAll('.btn-lg');
+            
+            actionButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const href = button.getAttribute('href');
+                    
+                    // Allow Create Team for everyone
+                    if (href.includes('create-team.html')) {
+                        window.location.href = href;
+                        return;
+                    }
+                    
+                    const user = firebase.auth().currentUser;
+                    
+                    if (!user) {
+                        // If not logged in, redirect to login page
+                        window.location.href = 'pages/login.html';
+                    } else {
+                        // If logged in, proceed to the intended page
+                        window.location.href = href;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

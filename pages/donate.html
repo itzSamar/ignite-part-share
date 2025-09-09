@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate Parts - IGNITE Part Share</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">IGNITE Part Share</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="donate.html">Donate Parts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="request.html">Request Parts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="parts-list.html">Find Parts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="leaderboard.html">Leaderboard</a>
+                    </li>
+                </ul>
+                <div class="navbar-nav">
+                    <span class="nav-item notification-container">
+                        <a class="nav-link" href="profile.html#notifications" id="notificationsLink">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge bg-danger notification-badge" id="notificationCount" style="display: none;">0</span>
+                        </a>
+                    </span>
+                    <span class="nav-link">
+                        <span class="points-badge">Points: <span id="userPoints">0</span></span>
+                    </span>
+                    <a class="nav-link" href="profile.html">Profile</a>
+                    <a class="nav-link" href="#" id="logoutBtn">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <main class="container mt-5">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">Donate Parts</h2>
+                        <form id="donateForm">
+                            <div class="mb-3">
+                                <label for="partName" class="form-label">Part Name</label>
+                                <input type="text" class="form-control" id="partName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="program" class="form-label">FIRST Program</label>
+                                <select class="form-select" id="program" required>
+                                    <option value="">Select a program</option>
+                                    <option value="fll">FIRST LEGO League</option>
+                                    <option value="ftc">FIRST Tech Challenge</option>
+                                    <option value="frc">FIRST Robotics Competition</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Category</label>
+                                <select class="form-select" id="category" required>
+                                    <option value="">Select a category</option>
+                                    <option value="electronics">Electronics</option>
+                                    <option value="mechanical">Mechanical</option>
+                                    <option value="pneumatics">Pneumatics</option>
+                                    <option value="sensors">Sensors</option>
+                                    <option value="motors">Motors</option>
+                                    <option value="batteries">Batteries</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="condition" class="form-label">Condition</label>
+                                <select class="form-select" id="condition" required>
+                                    <option value="">Select condition</option>
+                                    <option value="new">New</option>
+                                    <option value="likeNew">Like New</option>
+                                    <option value="good">Good</option>
+                                    <option value="fair">Fair</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="quantity" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="quantity" min="1" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" rows="3" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="shipping" class="form-label">Delivery Method</label>
+                                <select class="form-select" id="shipping" required>
+                                    <option value="donor">I will handle shipping</option>
+                                    <option value="recipient">Recipient pays shipping</option>
+                                    <option value="dropoff">Local drop-off/pickup</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">List Part for Donation</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="card mb-4" id="currentRequestCard">
+                    <div class="card-body">
+                        <h3 class="card-title text-center mb-4">Fulfilling Specific Request?</h3>
+                        <div id="requestDetails">
+                            <div class="alert alert-info" id="noRequestSelectedMessage">
+                                You are currently making a general donation. This part will be listed for any team to claim. Select a request below to donate specifically to it.
+                            </div>
+                            <div id="specificRequestInfo" style="display: none;">
+                                <h5>Donating for request by Team: <span id="requestTeam"></span></h5>
+                                <div class="mb-2">
+                                    <strong>Part Needed:</strong> <span id="requestedPart"></span>
+                                </div>
+                                <div class="mb-2">
+                                    <strong>Program:</strong> <span id="requestedProgram"></span>
+                                </div>
+                                <div class="mb-2">
+                                    <strong>Qty Needed:</strong> <span id="requestedQuantity"></span>
+                                </div>
+                                 <div class="mb-2">
+                                    <strong>Urgency:</strong> <span id="requestedUrgency" class="badge"></span>
+                                </div>
+                                <div class="mb-2">
+                                    <strong>Details:</strong> <p id="requestedDetails" class="small"></p>
+                                </div>
+                                <input type="hidden" id="selectedRequestId">
+                                <input type="hidden" id="selectedRequesterId">
+                                <input type="hidden" id="selectedRequesterTeamName">
+                                <input type="hidden" id="selectedRequesterTeamNumber">
+                                <button class="btn btn-sm btn-outline-secondary w-100 mt-2" id="clearSelectedRequestBtn">Donate Generally Instead</button>
+                                <div class="alert alert-success mt-2">
+                                    Your donation details below will be sent to this team.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title text-center mb-4">Open Part Requests</h3>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="searchOpenRequests" placeholder="Search requests...">
+                        </div>
+                        <div id="openRequestsListContainer" style="max-height: 400px; overflow-y: auto;">
+                            <!-- Open requests will be loaded here by donate.js -->
+                            <p class="text-center text-muted">Loading open requests...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </main>
+    </div>
+
+    <footer class="footer mt-auto py-4 bg-light">
+        <div class="container text-center footer-attribution">
+            <p class="team-credit">Made by Team X 23512</p>
+            <p><a href="https://ignitepathways.org" target="_blank" class="ignite-link">IGNITE Pathways</a></p>
+        </div>
+    </footer>
+
+    <!-- Notification Container -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Initialize Firebase -->
+    <script src="../js/firebase-init.js"></script>
+
+    <!-- Bootstrap and custom scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/donate.js"></script>
+</body>
+</html> 

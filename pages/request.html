@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Parts - IGNITE Part Share</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">IGNITE Part Share</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="donate.html">Donate Parts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="request.html">Request Parts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="parts-list.html">Find Parts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="leaderboard.html">Leaderboard</a>
+                    </li>
+                </ul>
+                <div class="navbar-nav">
+                    <span class="nav-item notification-container">
+                        <a class="nav-link" href="profile.html#notifications" id="notificationsLink">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge bg-danger notification-badge" id="notificationCount" style="display: none;">0</span>
+                        </a>
+                    </span>
+                    <span class="nav-link">
+                        <span class="points-badge">Points: <span id="userPoints">0</span></span>
+                    </span>
+                    <a class="nav-link" href="profile.html">Profile</a>
+                    <a class="nav-link" href="#" id="logoutBtn">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <main class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">Request Specific Parts</h2>
+                        <form id="requestForm">
+                            <div class="mb-3">
+                                <label for="requestPartName" class="form-label">Part Name/Description</label>
+                                <input type="text" class="form-control" id="requestPartName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="requestProgram" class="form-label">FIRST Program</label>
+                                <select class="form-select" id="requestProgram" required>
+                                    <option value="">Select a program</option>
+                                    <option value="fll">FIRST LEGO League</option>
+                                    <option value="ftc">FIRST Tech Challenge</option>
+                                    <option value="frc">FIRST Robotics Competition</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="requestCategory" class="form-label">Category</label>
+                                <select class="form-select" id="requestCategory" required>
+                                    <option value="">Select a category</option>
+                                    <option value="electronics">Electronics</option>
+                                    <option value="mechanical">Mechanical</option>
+                                    <option value="pneumatics">Pneumatics</option>
+                                    <option value="sensors">Sensors</option>
+                                    <option value="motors">Motors</option>
+                                    <option value="batteries">Batteries</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="requestQuantity" class="form-label">Quantity Needed</label>
+                                <input type="number" class="form-control" id="requestQuantity" min="1" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="requestDetails" class="form-label">Additional Details</label>
+                                <textarea class="form-control" id="requestDetails" rows="3" 
+                                    placeholder="Please provide any specific requirements, part numbers, or other relevant details"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="requestUrgency" class="form-label">Urgency Level</label>
+                                <select class="form-select" id="requestUrgency" required>
+                                    <option value="low">Low - Needed within months</option>
+                                    <option value="medium">Medium - Needed within weeks</option>
+                                    <option value="high">High - Needed within days</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="requestImage" class="form-label">Reference Image (optional)</label>
+                                <input type="file" class="form-control" id="requestImage" accept="image/*">
+                                <small class="text-muted">Upload an image of the part you're looking for</small>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100">Submit Part Request</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-12">
+                <h3 class="text-center mb-4">Current Part Requests</h3>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Part Name</th>
+                                <th>Program</th>
+                                <th>Category</th>
+                                <th>Quantity</th>
+                                <th>Team</th>
+                                <th>Urgency</th>
+                                <th>Posted Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="requestsList">
+                            <!-- Requests will be dynamically loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </main>
+    </div>
+
+    <footer class="footer mt-auto py-4 bg-light">
+        <div class="container text-center footer-attribution">
+            <p class="team-credit">Made by Team X 23512</p>
+            <p><a href="https://ignitepathways.org" target="_blank" class="ignite-link">IGNITE Pathways</a></p>
+        </div>
+    </footer>
+
+    <!-- Notification Container -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Initialize Firebase -->
+    <script src="../js/firebase-init.js"></script>
+
+    <!-- Bootstrap and custom scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/request.js"></script>
+</body>
+</html> 
